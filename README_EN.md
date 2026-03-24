@@ -1,9 +1,8 @@
-# AIChat - Dual-End Desktop Pet & Web Intelligent Dialogue System
+# Context-Aware Intelligent Desktop Agent System
 
 ## Project Overview
 
-AIChat is an intelligent dialogue system combining a desktop pet application with a web platform. It supports both Ollama local inference and OpenAI-compatible APIs, providing complete session management, memory systems, and multimodal interaction capabilities.
-
+The context-aware intelligent desktop Agent system is an intelligent dialogue system that combines a desktop pet with web applications. It supports Ollama local inference and OpenAI-compatible APIs, providing complete conversation management, memory system, and multimodal interaction capabilities.
 ### Core Features
 
 - 🖥️ **Dual-End Application**: PyQt6 desktop pet application and Flask web application
