@@ -143,6 +143,7 @@ class PetChatCore:
                 model=self.model_name,
                 base_url=self.base_url,
                 api_key=self.api_key,
+                timeout=600
             )
 
             mode = output.get('mode', 'chat')
@@ -154,6 +155,7 @@ class PetChatCore:
                     model=self.model_name,
                     api_key=self.api_key,
                     base_url=self.base_url,
+                    timeout=600
                 )
             elif mode == "local_tool":
                 response_generator = self.chat_processor.process_tool_call(
@@ -163,7 +165,8 @@ class PetChatCore:
                     use_llm=True,
                     base_url=self.base_url,
                     user_query=message,
-                    tool_hooks=tool_hooks
+                    tool_hooks=tool_hooks,
+                    timeout=600
                 )
             elif mode == "network":
                 response_generator = self.chat_processor.process_with_search(
@@ -177,12 +180,12 @@ class PetChatCore:
                     search_top_k=output.get("top_k", 2),
                     search_mode=output.get("search_mode", "text"),  # 动态获取，不要硬编码
                     vl_model=config.vl_model,
+                    timeout=600
                 )
             else:
                 response_generator = []
 
             full_assistant_response = ""
-
             for chunk_str in response_generator:
                 try:
                     chunk = json.loads(chunk_str)
@@ -192,6 +195,7 @@ class PetChatCore:
                         yield content_piece
 
                 except Exception as e:
+                    print(traceback.format_exc())
                     pass
 
             if full_assistant_response:
@@ -266,7 +270,8 @@ class PetChatCore:
                         api_key=config.openai_vl_api_key,
                         base_url=config.openai_vl_base_url,
                         max_token=1024,
-                        temperature=0.6
+                        temperature=0.6,
+                        timeout=600
                     )
 
                     # 同步等待视觉模型分析完毕 (收集完整描述)
@@ -311,6 +316,7 @@ class PetChatCore:
                 model=self.model_name,
                 api_key=self.api_key,
                 base_url=self.base_url,
+                timeout=600
             )
 
             full_assistant_response = ""

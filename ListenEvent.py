@@ -912,14 +912,15 @@ class DesktopMonitor:
         """扫描后台音乐进程，基于真实音频输出累加时长"""
         current_time = time.time()
         elapsed = current_time - self.last_music_scan_time
-        if elapsed < 5.0:
+        if elapsed < 1.5:  # 将 5.0 改为 1.5 秒，大幅提高检测灵敏度
             return
         self.last_music_scan_time = current_time
 
         found_playing_song = None
+        found_playing_proc = ""  # 用来接住进程名
 
         def enum_windows_proc(hwnd, lParam):
-            nonlocal found_playing_song
+            nonlocal found_playing_song, found_playing_proc
             if found_playing_song: return
 
             if win32gui.IsWindowVisible(hwnd):
@@ -946,8 +947,7 @@ class DesktopMonitor:
                                                                                   "Desktop Lyrics"]:
                             if self._is_pid_playing_audio(pid):
                                 found_playing_song = song_name
-                            if self._is_pid_playing_audio(pid):
-                                found_playing_song = song_name
+                                found_playing_proc = proc_name
 
         win32gui.EnumWindows(enum_windows_proc, None)
 
@@ -977,6 +977,19 @@ class DesktopMonitor:
                 self.last_seen_song = found_playing_song
                 print(f"\033[95m🎵 [音乐] 切回歌曲: {found_playing_song} (今日: {daily_recs[found_playing_song]['count']}次, 总计: {total_recs[found_playing_song]['count']}次)\033[0m")
                 needs_save = True
+                # 发送给 AI 队列
+                self.event_queue.put({
+                    "type": "SYSTEM_STATE",
+                    "action_type": "MUSIC_CHANGE",
+                    "intent": "系统检测到切歌",
+                    "raw_process": found_playing_proc,
+                    "window_title": found_playing_song,
+                    "context_tag": "Music",
+                    "context_desc": "后台音乐播放",
+                    "target": found_playing_song,
+                    "timestamp": time.time()
+                })
+
 
             # 累加时长
             total_recs[found_playing_song]["duration"] += elapsed
@@ -1756,6 +1769,10 @@ class DesktopMonitor:
             memory_item["action"] = "Type Text"
             memory_item["target"] = f"\"{event.get('target', '')}\""  # 加上引号表示字符串
 
+        elif event['type'] == 'SYSTEM_STATE' and event.get('action_type') == 'MUSIC_CHANGE':
+            memory_item["action"] = "Song Changed To"
+            memory_item["target"] = event.get('target', '')
+
         elif event['type'] == 'FOCUS_SWITCH':
             memory_item["action"] = "Switch Window"
             # 记录完整标题，这对 AI 理解当前工作内容至关重要
@@ -1850,6 +1867,17 @@ class DesktopMonitor:
         [Prompt Context] 将结构化日志转化为连贯的自然语言描述。
         保留时间流、应用上下文和操作细节，并在末尾标注触发点。
         """
+
+        def format_time(total_seconds):
+            h, rem = divmod(int(total_seconds), 3600)
+            m, s = divmod(rem, 60)
+            if h > 0:
+                return f"{h}小时{m}分"
+            elif m > 0:
+                return f"{m}分{s}秒"
+            else:
+                return f"{s}秒"
+
         lines = []
 
         # 即使没有新日志，也保留上下文标题
@@ -1927,7 +1955,7 @@ class DesktopMonitor:
                         m, s = divmod(int(total_time), 60)
                         h, m = divmod(m, 60)
                         game_name = key.split(' | ')[1]
-                        log_text += f"- {game_name}: {h}h {m}m {s}s\n"
+                        log_text += f"- {game_name}: {format_time(total_time)}\n"
 
                 if total_games:
                     log_text += "【Past / Total】\n"
@@ -1937,11 +1965,13 @@ class DesktopMonitor:
                         m, s = divmod(int(total_time), 60)
                         h, m = divmod(m, 60)
                         game_name = key.split(' | ')[1]
-                        log_text += f"- {game_name}: {h}h {m}m {s}s\n"
+                        log_text += f"- {game_name}: {format_time(total_time)}\n"
 
             # 2. Music：增加基于算分的今天和历史排序
             elif curr_tag == 'Music':
                 log_text += "\n### Music Playlist Statistics:\n"
+                if hasattr(self, 'last_seen_song') and self.last_seen_song:
+                    log_text += f"【Currently Playing】: {self.last_seen_song}\n\n"
                 today_music = self.music_records.get("daily", {}).get(today_str, {})
                 total_music = self.music_records.get("total", {})
 
@@ -1954,7 +1984,7 @@ class DesktopMonitor:
                     for idx, (song, stats) in enumerate(sorted_today, 1):
                         count = stats['count']
                         m, s = divmod(int(stats['duration']), 60)
-                        log_text += f"  {idx}. {song} (Play: {count} times, Time: {m}m {s}s)\n"
+                        log_text += f"  {idx}. {song} (Play: {count} times, Time: {format_time(stats['duration'])})\n"
 
                 if total_music:
                     log_text += "【All Time Top】\n"
@@ -1962,7 +1992,7 @@ class DesktopMonitor:
                     for idx, (song, stats) in enumerate(sorted_total, 1):
                         count = stats['count']
                         m, s = divmod(int(stats['duration']), 60)
-                        log_text += f"  {idx}. {song} (Play: {count} times, Time: {m}m {s}s)\n"
+                        log_text += f"  {idx}. {song} (Play: {count} times, Time: {format_time(stats['duration'])})\n"
 
         return log_text
 
@@ -2081,6 +2111,18 @@ class DesktopMonitor:
                 print(f"\033[95m🔄 [混合模式] 触发上传 ({current_tag}) -> 模式：文本 + 图片\033[0m ")
 
         if should_send:
+            # ==============================================================
+            # 针对音乐播放器的“防抢跑”延迟逻辑
+            # ==============================================================
+            # 如果当前操作的是音乐/媒体软件，且是一个点击互动事件
+            if event['type'] == 'INTERACTION' and current_tag in ['Music', 'Media']:
+                print("⏳ [状态同步] 正在等待播放器刷新歌名，延迟 1.5 秒发送给 AI...")
+                time.sleep(1.5)  # 强行让主线程等 1.5 秒，留给音乐软件网络请求和切歌的时间
+
+                # 强行在这个瞬间扫描一次最新的后台音乐，确保 `self.last_seen_song` 被正确改写
+                self._scan_background_music()
+            # ==============================================================
+
             result_packet = {
                 "text": None,
                 "image": None,
