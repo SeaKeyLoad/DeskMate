@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat System</title>
+    <!-- Cropper.js 样式和脚本 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+<body>
+<input type="hidden" id="configModelName" value="{{ model_name }}">
+<input type="hidden" id="currentSessionId" value="{{ current_session_id }}">
+<input type="hidden" id="currentChatType" value="{{ current_chat_type }}">
+<input type="hidden" id="currentBgUrl" value="{{ bg_image_url }}">
+<input type="hidden" id="currentBgX" value="{{ bg_x }}">
+<input type="hidden" id="currentBgY" value="{{ bg_y }}">
+<div class="container">
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>{{ user.username }}</h3>
+            <span class="role-badge {{ user.role }}">{{ user.role }}</span>
+        </div>
+
+        <a href="{{ url_for('new_chat', chat_type=current_chat_type) }}" class="btn-new-chat">
+            <i class="fas fa-plus"></i> 新建对话
+        </a>
+
+        <div class="sidebar-tools">
+            <div style="text-align: center; font-weight: bold; color: var(--primary); font-size: 15px; margin-bottom: 8px;"
+                 id="sidebarModelIndicator">
+                {% if user_model_mode == 1 %}Cloud API Mode{% else %}{{ model_name }} (Local){% endif %}
+            </div>
+            <div class="tool-group">
+                <label class="toggle-switch" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="apiModeToggle" {% if user_model_mode== 1 %}checked{% endif %}>
+                    <span style="font-size: 14px;" id="modeLabel">
+                        {% if user_model_mode == 1 %}云端 API{% else %}本地模型{% endif %}
+                    </span>
+                </label>
+            </div>
+
+            <div class="tool-group">
+                <label>当前人设:</label>
+                <select id="promptSelect">
+                    {% for p_name in available_prompts %}
+                    <option value="{{ p_name }}" {% if p_name== current_prompt_name %}selected{% endif %}>
+                        {{ p_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="tool-group">
+                <label>您的称呼:</label>
+                <input type="text" id="userRoleInput" value="{{ current_user_role }}" placeholder="例如：哥哥">
+            </div>
+
+            <div class="tool-group" style="margin-top: 5px;">
+                <button class="btn-tool" id="bgImageBtn">
+                    <i class="fas fa-image"></i> 设置选择会话背景
+                </button>
+                <input type="file" id="bgFileInput" accept="image/*" style="display: none;">
+            </div>
+        </div>
+
+        <div class="menu-items">
+            {% for sess in session_list %}
+            <div class="session-item {% if sess.id == current_session_id %}active{% endif %}"
+                 onclick="window.location.href='/api/ai/chat/{{ current_chat_type }}/{{ sess.id }}'"
+                 id="sess-item-{{ sess.id }}">
+                <span class="session-title" id="title-{{ sess.id }}">
+                    <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
+                    {{ sess.name }}
+                </span>
+                <div class="session-options" onclick="toggleMenu(event, '{{ sess.id }}')">
+                    <i class="fas fa-ellipsis"></i>
+                    <div class="dropdown-menu" id="menu-{{ sess.id }}">
+                        <div class="dropdown-item" onclick="renameSession(event, '{{ sess.id }}', '{{ sess.name }}')">
+                            <i class="fas fa-edit"></i> 重命名
+                        </div>
+                        <div class="dropdown-item" onclick="deleteSession(event, '{{ sess.id }}')">
+                            <i class="fas fa-trash-alt"></i> 删除会话
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="bottom-menu">
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> 退出登录</a>
+        </div>
+    </div>
+
+    <div class="chat-area">
+        <div id="mobile-overlay" class="mobile-overlay"></div>
+        <div class="messages-box" id="messagesBox">
+            {% for msg in history %}
+            <div class="message {{ msg.role }}">
+                <div class="avatar">
+                    {% if msg.role == 'assistant' %}
+                    <i class="fas fa-robot"></i>
+                    {% else %}
+                    <i class="fas fa-user"></i>
+                    {% endif %}
+                </div>
+
+                <div class="content markdown-body">
+                    {% if msg.msg_type == 'image' %}
+                    <div class="image-group-container">
+                        <img src="{{ msg.content }}" class="image-thumbnail" onclick="showModal(this.src)"
+                             loading="lazy">
+                    </div>
+                    {% elif msg.msg_type == 'image_group' %}
+                    <div class="image-group-container">
+                        {% for img_src in msg.content %}
+                        <img src="{{ img_src }}" class="image-thumbnail" onclick="showModal(this.src)" loading="lazy">
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+                    {{ msg.content }}
+                    <textarea class="raw-markdown" style="display:none;">{{ msg.content }}</textarea>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+            <div class="preview-list" id="previewList">
+            </div>
+        </div>
+
+
+        <div class="input-area">
+            <div class="input-toolbar">
+                <button class="btn-icon" id="sidebarToggle" title="展开/收起菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="btn-icon" onclick="document.getElementById('fileInput').click()" title="上传图片">
+                    <i class="far fa-image"></i>
+                </button>
+                </div>
+
+            <div class="input-main">
+                <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(this)">
+                <textarea id="userInput" placeholder="输入消息... (Shift+Enter 换行)"></textarea>
+                <button onclick="sendMessage()" id="sendBtn" class="btn-send">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal" style="display: none;" onclick="closeModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
+
+<!-- 背景裁剪模态框 -->
+<div id="bg-crop-modal" class="modal" style="display: none;">
+    <div class="modal-content" style="width: 600px; max-width: 90%;">
+        <span class="close" onclick="closeBgCropModal()"
+              style="position:absolute; right:20px; top:15px; font-size:24px; cursor:pointer; color:#999;">&times;</span>
+        <h3 style="margin-top: 0; color:#333;">点击图片选择视觉中心</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">原图将完整展示，空白区域会用模糊版自适应填充。<br>请点击画面最重要的部分（如人脸）对齐焦点。
+        </p>
+
+        <div id="focal-container"
+             style="position: relative; display: inline-block; max-height: 45vh; overflow: hidden; cursor: crosshair; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 6px; margin: 0 auto;">
+            <img id="crop-image" src="" alt="待处理图片"
+                 style="max-height: 45vh; width: auto; max-width: 100%; display: block;">
+            <div id="focal-point"
+                 style="position: absolute; width: 18px; height: 18px; background: rgba(255,71,87,0.8); border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); top: 50%; left: 50%; pointer-events: none; box-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px; gap: 10px;">
+            <button class="btn-cancel" onclick="closeBgCropModal()"
+                    style="padding:10px 20px; border:none; border-radius:6px; cursor:pointer; background:#f0f0f0; color:#666;">
+                取消
+            </button>
+            <button class="btn-send" onclick="applyCroppedBackground()"
+                    style="padding:10px 20px; border:none; border-radius:6px; cursor:pointer; background:var(--primary); color:#fff;">
+                确认并应用
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="dragOverlay" class="drag-overlay">
+    <div class="drag-overlay-content">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>松开鼠标以上传图片</p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

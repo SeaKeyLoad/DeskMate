@@ -1,0 +1,610 @@
+{
+  "chrome.exe": {
+    "tag": "Browser",
+    "desc": "Chrome 浏览器"
+  },
+  "msedge.exe": {
+    "tag": "Browser",
+    "desc": "Edge 浏览器"
+  },
+  "firefox.exe": {
+    "tag": "Browser",
+    "desc": "Firefox 浏览器"
+  },
+  "opera.exe": {
+    "tag": "Browser",
+    "desc": "Opera 浏览器"
+  },
+  "brave.exe": {
+    "tag": "Browser",
+    "desc": "Brave 浏览器"
+  },
+  "safari.exe": {
+    "tag": "Browser",
+    "desc": "Safari 浏览器"
+  },
+  "code.exe": {
+    "tag": "Coding",
+    "desc": "VS Code 代码编辑"
+  },
+  "pycharm64.exe": {
+    "tag": "Coding",
+    "desc": "PyCharm Python IDE"
+  },
+  "idea64.exe": {
+    "tag": "Coding",
+    "desc": "IntelliJ IDEA Java IDE"
+  },
+  "webstorm64.exe": {
+    "tag": "Coding",
+    "desc": "WebStorm 前端开发"
+  },
+  "clion64.exe": {
+    "tag": "Coding",
+    "desc": "CLion C/C++ IDE"
+  },
+  "datagrip64.exe": {
+    "tag": "Coding",
+    "desc": "DataGrip 数据库工具"
+  },
+  "phpstorm64.exe": {
+    "tag": "Coding",
+    "desc": "PhpStorm PHP IDE"
+  },
+  "rubymine64.exe": {
+    "tag": "Coding",
+    "desc": "RubyMine Ruby IDE"
+  },
+  "goland64.exe": {
+    "tag": "Coding",
+    "desc": "GoLand Go IDE"
+  },
+  "rider64.exe": {
+    "tag": "Coding",
+    "desc": "Rider .NET IDE"
+  },
+  "androidstudio.exe": {
+    "tag": "Coding",
+    "desc": "Android Studio"
+  },
+  "eclipse.exe": {
+    "tag": "Coding",
+    "desc": "Eclipse IDE"
+  },
+  "notepad++.exe": {
+    "tag": "Coding",
+    "desc": "Notepad++ 文本编辑"
+  },
+  "sublime_text.exe": {
+    "tag": "Coding",
+    "desc": "Sublime Text 编辑器"
+  },
+  "atom.exe": {
+    "tag": "Coding",
+    "desc": "Atom 编辑器"
+  },
+  "vim.exe": {
+    "tag": "Coding",
+    "desc": "Vim 终端编辑器"
+  },
+  "nvim.exe": {
+    "tag": "Coding",
+    "desc": "Neovim 编辑器"
+  },
+  "excel.exe": {
+    "tag": "Office",
+    "desc": "Excel 电子表格"
+  },
+  "winword.exe": {
+    "tag": "Office",
+    "desc": "Word 文档编辑"
+  },
+  "powerpnt.exe": {
+    "tag": "Office",
+    "desc": "PowerPoint 演示文稿"
+  },
+  "outlook.exe": {
+    "tag": "Office",
+    "desc": "Outlook 邮件客户端"
+  },
+  "onenote.exe": {
+    "tag": "Office",
+    "desc": "OneNote 笔记"
+  },
+  "mspub.exe": {
+    "tag": "Office",
+    "desc": "Publisher 出版工具"
+  },
+  "visio.exe": {
+    "tag": "Office",
+    "desc": "Visio 流程图"
+  },
+  "wps.exe": {
+    "tag": "Office",
+    "desc": "WPS Office 套件"
+  },
+  "et.exe": {
+    "tag": "Office",
+    "desc": "WPS 表格"
+  },
+  "wpspdf.exe": {
+    "tag": "Office",
+    "desc": "WPS PDF 阅读"
+  },
+  "acrord32.exe": {
+    "tag": "Office",
+    "desc": "Adobe Reader PDF 阅读"
+  },
+  "foxitreader.exe": {
+    "tag": "Office",
+    "desc": "Foxit PDF 阅读器"
+  },
+  "sumatra.exe": {
+    "tag": "Office",
+    "desc": "Sumatra PDF 轻量阅读"
+  },
+  "dingtalk.exe": {
+    "tag": "Office",
+    "desc": "钉钉 办公协作"
+  },
+  "feishu.exe": {
+    "tag": "Office",
+    "desc": "飞书 企业协作"
+  },
+  "lark.exe": {
+    "tag": "Office",
+    "desc": "Lark 飞书国际版"
+  },
+  "vlc.exe": {
+    "tag": "Media",
+    "desc": "VLC 本地媒体播放器"
+  },
+  "potplayer.exe": {
+    "tag": "Media",
+    "desc": "PotPlayer 本地播放器"
+  },
+  "vmware.exe": {
+    "tag": "DevEnv",
+    "desc": "VMware 虚拟机"
+  },
+  "virtualbox.exe": {
+    "tag": "DevEnv",
+    "desc": "VirtualBox 虚拟机"
+  },
+  "docker.exe": {
+    "tag": "DevEnv",
+    "desc": "Docker 桌面版"
+  },
+  "wsl.exe": {
+    "tag": "DevEnv",
+    "desc": "WSL Linux子系统"
+  },
+  "cmd.exe": {
+    "tag": "System",
+    "desc": "命令提示符"
+  },
+  "powershell.exe": {
+    "tag": "System",
+    "desc": "PowerShell 终端"
+  },
+  "explorer.exe": {
+    "tag": "System",
+    "desc": "文件资源管理器"
+  },
+  "taskmgr.exe": {
+    "tag": "System",
+    "desc": "任务管理器"
+  },
+  "regedit.exe": {
+    "tag": "System",
+    "desc": "注册表编辑器"
+  },
+  "mspaint.exe": {
+    "tag": "System",
+    "desc": "画图工具"
+  },
+  "snippingtool.exe": {
+    "tag": "System",
+    "desc": "截图工具"
+  },
+  "jietu.exe": {
+    "tag": "System",
+    "desc": "Snipaste 截图"
+  },
+  "notepad.exe": {
+    "tag": "System",
+    "desc": "记事本"
+  },
+  "calc.exe": {
+    "tag": "System",
+    "desc": "计算器"
+  },
+  "control.exe": {
+    "tag": "System",
+    "desc": "控制面板"
+  },
+  "systemsettings.exe": {
+    "tag": "System",
+    "desc": "Windows 设置"
+  },
+  "msconfig.exe": {
+    "tag": "System",
+    "desc": "系统配置"
+  },
+  "winver.exe": {
+    "tag": "System",
+    "desc": "Windows 版本信息"
+  },
+  "charmap.exe": {
+    "tag": "System",
+    "desc": "字符映射表"
+  },
+  "magnify.exe": {
+    "tag": "System",
+    "desc": "放大镜"
+  },
+  "narrator.exe": {
+    "tag": "System",
+    "desc": "讲述人 屏幕阅读"
+  },
+  "osk.exe": {
+    "tag": "System",
+    "desc": "屏幕键盘"
+  },
+  "soundrecorder.exe": {
+    "tag": "System",
+    "desc": "录音机"
+  },
+  "dxdiag.exe": {
+    "tag": "System",
+    "desc": "DirectX 诊断工具"
+  },
+  "cleanmgr.exe": {
+    "tag": "System",
+    "desc": "磁盘清理"
+  },
+  "dfrgui.exe": {
+    "tag": "System",
+    "desc": "磁盘碎片整理"
+  },
+  "perfmon.exe": {
+    "tag": "System",
+    "desc": "性能监视器"
+  },
+  "compmgmt.msc": {
+    "tag": "System",
+    "desc": "计算机管理"
+  },
+  "eventvwr.msc": {
+    "tag": "System",
+    "desc": "事件查看器"
+  },
+  "services.msc": {
+    "tag": "System",
+    "desc": "服务管理"
+  },
+  "appwiz.cpl": {
+    "tag": "System",
+    "desc": "程序和功能"
+  },
+  "desk.cpl": {
+    "tag": "System",
+    "desc": "显示设置"
+  },
+  "timedate.cpl": {
+    "tag": "System",
+    "desc": "日期和时间"
+  },
+  "WindowsTerminal.exe": {
+    "tag": "System",
+    "desc": "Windows 终端"
+  },
+  "wechat.exe": {
+    "tag": "Social",
+    "desc": "微信"
+  },
+  "qq.exe": {
+    "tag": "Social",
+    "desc": "QQ 即时通讯"
+  },
+  "tim.exe": {
+    "tag": "Social",
+    "desc": "TIM 办公版QQ"
+  },
+  "telegram.exe": {
+    "tag": "Social",
+    "desc": "Telegram"
+  },
+  "slack.exe": {
+    "tag": "Social",
+    "desc": "Slack 团队协作"
+  },
+  "discord.exe": {
+    "tag": "Social",
+    "desc": "Discord 社区聊天"
+  },
+  "skype.exe": {
+    "tag": "Social",
+    "desc": "Skype 视频通话"
+  },
+  "teamviewer.exe": {
+    "tag": "Remote",
+    "desc": "TeamViewer 远程控制"
+  },
+  "anydesk.exe": {
+    "tag": "Remote",
+    "desc": "AnyDesk 远程桌面"
+  },
+  "todesk.exe": {
+    "tag": "Remote",
+    "desc": "ToDesk 远程控制"
+  },
+  "mstsc.exe": {
+    "tag": "Remote",
+    "desc": "远程桌面连接"
+  },
+  "steam.exe": {
+    "tag": "Game",
+    "desc": "Steam 游戏平台"
+  },
+  "EpicGamesLauncher.exe": {
+    "tag": "Game",
+    "desc": "Epic Games 启动器"
+  },
+  "WeGame.exe": {
+    "tag": "Game",
+    "desc": "腾讯WeGame游戏平台"
+  },
+  "LeagueClient.exe": {
+    "tag": "Game",
+    "desc": "英雄联盟"
+  },
+  "YuanShen.exe": {
+    "tag": "Game",
+    "desc": "原神"
+  },
+  "GenshinImpact.exe": {
+    "tag": "Game",
+    "desc": "原神国际版"
+  },
+  "Brawlhalla.exe": {
+    "tag": "Game",
+    "desc": "Brawlhalla 格斗游戏"
+  },
+  "Minecraft.exe": {
+    "tag": "Game",
+    "desc": "Minecraft 我的世界"
+  },
+  "dota2.exe": {
+    "tag": "Game",
+    "desc": "Dota 2"
+  },
+  "csgo.exe": {
+    "tag": "Game",
+    "desc": "CS:GO"
+  },
+  "pubg.exe": {
+    "tag": "Game",
+    "desc": "绝地求生"
+  },
+  "Overwatch.exe": {
+    "tag": "Game",
+    "desc": "守望先锋"
+  },
+  "FortniteClient-Win64-Shipping.exe": {
+    "tag": "Game",
+    "desc": "堡垒之夜"
+  },
+  "RobloxPlayer.exe": {
+    "tag": "Game",
+    "desc": "Roblox 创意平台"
+  },
+  "osu!.exe": {
+    "tag": "Game",
+    "desc": "osu! 音乐节奏游戏"
+  },
+  "bluestacks.exe": {
+    "tag": "Game",
+    "desc": "BlueStacks 安卓模拟器"
+  },
+  "nox.exe": {
+    "tag": "Game",
+    "desc": "夜神安卓模拟器"
+  },
+  "mumu.exe": {
+    "tag": "Game",
+    "desc": "MuMu 模拟器"
+  },
+  "taptap.exe": {
+    "tag": "Game",
+    "desc": "TapTap 游戏社区"
+  },
+  "hoyoverse.exe": {
+    "tag": "Game",
+    "desc": "米哈游启动器"
+  },
+  "launcher.exe": {
+    "tag": "Game",
+    "desc": "通用游戏启动器"
+  },
+  "xboxapp.exe": {
+    "tag": "Game",
+    "desc": "Xbox Game Pass"
+  },
+  "uplay.exe": {
+    "tag": "Game",
+    "desc": "Ubisoft Connect"
+  },
+  "battle.net.exe": {
+    "tag": "Game",
+    "desc": "暴雪战网"
+  },
+  "origin.exe": {
+    "tag": "Game",
+    "desc": "EA Origin"
+  },
+  "retroarch.exe": {
+    "tag": "Game",
+    "desc": "RetroArch 模拟器"
+  },
+  "rpcs3.exe": {
+    "tag": "Game",
+    "desc": "RPCS3 PS3模拟器"
+  },
+  "yuzu.exe": {
+    "tag": "Game",
+    "desc": "Yuzu Switch模拟器"
+  },
+  "cemu.exe": {
+    "tag": "Game",
+    "desc": "Cemu WiiU模拟器"
+  },
+  "ppsspp.exe": {
+    "tag": "Game",
+    "desc": "PPSSPP PSP模拟器"
+  },
+  "desmume.exe": {
+    "tag": "Game",
+    "desc": "DeSmuME NDS模拟器"
+  },
+  "mGBA.exe": {
+    "tag": "Game",
+    "desc": "mGBA GBA模拟器"
+  },
+  "vita3k.exe": {
+    "tag": "Game",
+    "desc": "Vita3K PSV模拟器"
+  },
+  "xenia.exe": {
+    "tag": "Game",
+    "desc": "Xenia Xbox360模拟器"
+  },
+  "launcher_main.exe": {
+    "tag": "Game",
+    "desc": "鸣潮 启动器"
+  },
+  "photoshop.exe": {
+    "tag": "Design",
+    "desc": "Photoshop 图像处理"
+  },
+  "illustrator.exe": {
+    "tag": "Design",
+    "desc": "Illustrator 矢量设计"
+  },
+  "indesign.exe": {
+    "tag": "Design",
+    "desc": "InDesign 排版设计"
+  },
+  "afterfx.exe": {
+    "tag": "Design",
+    "desc": "After Effects 视频特效"
+  },
+  "premiere.exe": {
+    "tag": "Design",
+    "desc": "Premiere 视频剪辑"
+  },
+  "figma.exe": {
+    "tag": "Design",
+    "desc": "Figma UI设计"
+  },
+  "xd.exe": {
+    "tag": "Design",
+    "desc": "Adobe XD 交互设计"
+  },
+  "blender.exe": {
+    "tag": "Design",
+    "desc": "Blender 3D建模"
+  },
+  "cinema4d.exe": {
+    "tag": "Design",
+    "desc": "Cinema 4D 3D动画"
+  },
+  "xmind.exe": {
+    "tag": "Design",
+    "desc": "XMind 思维导图"
+  },
+  "mindmanager.exe": {
+    "tag": "Design",
+    "desc": "MindManager 思维导图"
+  },
+  "bilibili.exe": {
+    "tag": "Video",
+    "desc": "哔哩哔哩 视频平台"
+  },
+  "tencentvideo.exe": {
+    "tag": "Video",
+    "desc": "腾讯视频"
+  },
+  "iqiyi.exe": {
+    "tag": "Video",
+    "desc": "爱奇艺 视频平台"
+  },
+  "youku.exe": {
+    "tag": "Video",
+    "desc": "优酷视频"
+  },
+  "netflix.exe": {
+    "tag": "Video",
+    "desc": "Netflix 影视平台"
+  },
+  "disneyplus.exe": {
+    "tag": "Video",
+    "desc": "Disney+ 影视平台"
+  },
+  "douyin.exe": {
+    "tag": "Video",
+    "desc": "抖音 短视频"
+  },
+  "kuaishou.exe": {
+    "tag": "Video",
+    "desc": "快手 短视频"
+  },
+  "xiaohongshu.exe": {
+    "tag": "Video",
+    "desc": "小红书 生活分享"
+  },
+  "spotify.exe": {
+    "tag": "Music",
+    "desc": "Spotify 音乐平台"
+  },
+  "netease.exe": {
+    "tag": "Music",
+    "desc": "网易云音乐"
+  },
+  "qqmusic.exe": {
+    "tag": "Music",
+    "desc": "QQ音乐"
+  },
+  "kugou.exe": {
+    "tag": "Music",
+    "desc": "酷狗音乐"
+  },
+  "douyu.exe": {
+    "tag": "Live",
+    "desc": "斗鱼 直播平台"
+  },
+  "huya.exe": {
+    "tag": "Live",
+    "desc": "虎牙 直播平台"
+  },
+  "clash-verge.exe": {
+    "tag": "VPN",
+    "desc": "Clash Verge 代理工具"
+  },
+  "plain craft launcher 2.exe": {
+    "tag": "Game",
+    "desc": "PCL2 启动器 - Minecraft第三方启动器"
+  },
+  "cloudmusic.exe": {
+    "tag": "Music",
+    "desc": "网易云音乐"
+  },
+  "client-win64-shipping.exe": {
+    "tag": "Game",
+    "desc": "鸣潮"
+  },
+  "sai2.exe": {
+    "tag": "Design",
+    "desc": "sai2绘画软件"
+  }
+}

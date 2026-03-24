@@ -1,0 +1,3 @@
+nsfw.json和nsfw_memory.json是配套使用的，前者是用于prompt，后者用于记忆压缩指导。这里不提供nsfw内容，需要的可自行寻找。
+
+因为没有使用Tool Calling，请确保nsfw_memory.json最后要求的JSON格式数据正确。

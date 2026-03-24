@@ -1,0 +1,240 @@
+# ==============================================================================
+# 视觉注意力配置文件 (Visual Attention Config)
+# ==============================================================================
+# [使用说明]
+# 1. 修改此文件后，在程序界面或逻辑中调用 reload_config() 即可即时生效。
+# 2. 熵值(Entropy)原理：系统根据你的操作累积分数，超过 threshold 即触发截图。
+# 3. 衰减(Decay)原理：如果不操作，分数会随时间慢慢减少，避免很久以前的操作误触发。
+## 触发模式："text_only" | "hybrid" | "visual_only"
+#  - text_only: 仅发送文本日志，不截图
+#  - hybrid: 文本 + 图片（默认）
+#  - visual_only: 仅截图，不发送文本
+
+# [Actions 动作键值速查表]
+# 以下是代码逻辑中支持的动作键 (Key)，配置 actions 时请使用这些名称：
+# ------------------------------------------------------------------------------
+# tick        : 时间流逝加分 (每秒触发一次)。用于游戏/视频等被动场景。
+# switch_in   : 窗口切换聚焦。当从其他软件切入该软件时触发。
+# keypress    : 普通键盘输入 (a-z, 0-9 等)。
+# special_key : 特殊功能键 (Backspace, Tab, Esc, Delete 等)。
+# enter       : 回车键 (Enter)。通常意味着确定的意图。
+# paste       : 粘贴操作 (Ctrl+V)。通常意味着引入了重要新信息。
+# click       : 普通鼠标左键点击。
+# click_send  : 意图点击。代码识别到按钮名为"发送/搜索/提交"时的点击。
+# drag        : (预留) 鼠标拖拽操作。
+# ==============================================================================
+
+global_settings:
+  default_snapshot_quality: "medium" # low (聊天), medium (通用), high (代码/文档)
+  default_log_depth: 15              # 默认附带最近 15 条操作日志
+
+# === 场景策略定义 ===
+policies:
+
+  # ----------------------------------------------------------------
+  # [高频产出类]：写代码、改BUG、配置环境
+  # ----------------------------------------------------------------
+  Coding:
+    enabled: true
+    capture_mode: "hybrid"        # 默认混合模式
+    threshold: 150.0
+    capture_scope: "window"
+    decay_rate: 0.5            # 衰减较慢，保留思考过程
+    snapshot_quality: "high"   # 必须高清
+    actions:
+      keypress: 1.0
+      special_key: 3.0
+      paste: 15.0
+      click: 2.0
+      switch_in: 10.0
+    text_flush_actions:
+      - "paste"        # 粘贴代码时同步文本
+
+  DevEnv: # 虚拟机、Docker、WSL、数据库工具
+    enabled: true
+    capture_mode: "hybrid"        # 默认混合模式
+    threshold: 180.0           # 阈值比Coding略高，因为操作可能更细碎
+    capture_scope: "window"
+    decay_rate: 0.5
+    snapshot_quality: "high"
+    actions:
+      keypress: 1.0
+      enter: 5.0               # 命令行里回车很重要
+      paste: 15.0
+      switch_in: 10.0
+
+  # ----------------------------------------------------------------
+  # [办公与远程类]：文档、远程控制
+  # ----------------------------------------------------------------
+  Office: # Word, Excel, PPT
+    enabled: true
+    capture_mode: "hybrid"        # 默认混合模式
+    threshold: 150.0
+    capture_scope: "screen"    # 办公软件常有弹窗或侧边栏，全屏更安全
+    decay_rate: 0.5
+    snapshot_quality: "high"
+    actions:
+      keypress: 1.0
+      paste: 10.0
+      click: 2.0
+      switch_in: 10.0
+
+  Remote: # TeamViewer, AnyDesk, RDP
+    enabled: true
+    capture_mode: "hybrid"        # 默认混合模式
+    threshold: 120.0           # 阈值较低，因为远程操作通常慢且重要
+    capture_scope: "window"    # 只截取远程窗口
+    decay_rate: 0.5
+    snapshot_quality: "high"   # 远程桌面文字模糊很难识别，需高清
+    actions:
+      keypress: 2.0            # 远程输入权重加倍
+      click: 3.0               # 远程点击权重加倍
+      switch_in: 20.0          # 切入远程桌面通常意味着开始工作
+
+  # ----------------------------------------------------------------
+  # [浏览与检索类]
+  # ----------------------------------------------------------------
+  Browser:
+    enabled: true
+    capture_mode: "hybrid"        # 默认混合模式
+    threshold: 80.0            # 阈值较低，网页浏览切换快
+    capture_scope: "window"
+    decay_rate: 1.0            # 衰减快，只关注当前页面
+    snapshot_quality: "medium" # 网页通常字体较大
+    actions:
+      keypress: 2.0            # 搜索框打字
+      enter: 20.0              # 搜索回车
+      click: 2.0
+      switch_in: 5.0
+
+  VPN: # 网络工具
+    enabled: false             # 默认不截图，保护IP/服务器隐私
+    capture_mode: "text_only"        # 仅文本，保护隐私
+    threshold: 999.0
+    capture_scope: "window"
+    actions: {}
+
+  # ----------------------------------------------------------------
+  # [沟通与AI类]：意图驱动
+  # ----------------------------------------------------------------
+  Social: # 微信, QQ, TG
+    enabled: true
+    capture_mode: "text_only"        # 仅文本，保护隐私
+    threshold: 50.0
+    capture_scope: "window"    # 强隐私，只截窗口
+    decay_rate: 2.0            # 极快衰减，只抓拍发送瞬间
+    snapshot_quality: "low"    # 只要能看清大概
+    actions:
+      enter: 40.0              # 回车即触发 (40+10=50)
+      click_send: 50.0         # 点击发送直接触发
+      keypress: 0.5            # 打字过程不重要
+      switch_in: 5.0
+
+  AI: # ChatGPT, Claude, DeepSeek
+    enabled: true
+    capture_mode: "hybrid"
+    threshold: 50.0
+    capture_scope: "window"
+    decay_rate: 1.0
+    snapshot_quality: "high"   # AI生成的代码/长文需要高清
+    actions:
+      enter: 40.0
+      click_send: 50.0
+      paste: 10.0              # 给AI发代码
+      switch_in: 5.0
+    text_flush_actions: #即刻触发
+      - "enter"        # 按下回车键
+      - "click_send"   # 点击了名为"发送"的按钮
+
+  # ----------------------------------------------------------------
+  # [设计与媒体类]：鼠标密集或时间驱动
+  # ----------------------------------------------------------------
+  Design: # PS, Figma, CAD
+    enabled: true
+    capture_mode: "visual_only"
+    threshold: 80.0
+    capture_scope: "screen"    # 包含工具栏、图层面板
+    decay_rate: 0.5
+    snapshot_quality: "high"   # 细节很重要
+    actions:
+      click: 4.0               # 点击/绘图是主要操作
+      special_key: 5.0         # 快捷键 (Ctrl/Shift/Alt)
+      switch_in: 10.0
+
+  Game: # 游戏
+    enabled: true
+    capture_mode: "hybrid"
+    threshold: 600.0           # 约60秒一次 (5分/秒)
+    capture_scope: "screen"    # 必须全屏
+    decay_rate: 0.0            # 不衰减
+    snapshot_quality: "medium"
+    actions:
+      tick: 5.0                # 自动计分
+      click: 0.0               # 忽略点击（防止APM高刷屏）
+      keypress: 0.0
+
+  Live: # OBS, 直播软件
+    enabled: true
+    capture_mode: "visual_only"
+    threshold: 300.0           # 类似游戏，时间驱动
+    capture_scope: "screen"
+    decay_rate: 0.0
+    snapshot_quality: "medium"
+    actions:
+      tick: 5.0
+      switch_in: 10.0
+
+  Video: # 视频播放器 (PotPlayer, VLC)
+    enabled: true
+    capture_mode: "hybrid"
+    threshold: 600.0           # 若开启，2分钟一次
+    capture_scope: "window"
+    decay_rate: 0.0
+    actions:
+      tick: 5.0     # 每秒加5点
+      click: 50.0   # 点击行为较为重要
+
+  Music: # 音乐播放器
+    enabled: true
+    capture_mode: "text_only"
+    threshold: 10.0
+    decay_rate: 0.1            # 超慢衰减
+    capture_scope: "window"
+    actions:
+      click: 5.0
+
+  Media: # 泛媒体 (兜底)
+    enabled: false
+    capture_mode: "hybrid"
+    threshold: 600.0
+    actions:
+      tick: 5.0
+
+  # ----------------------------------------------------------------
+  # [系统管理类]
+  # ----------------------------------------------------------------
+  System: # 任务管理器, 控制面板, Cmd
+    enabled: true
+    capture_mode: "hybrid"
+    threshold: 200.0           # 阈值高，不需要频繁看
+    capture_scope: "screen"    # 系统级操作通常看全屏更好
+    decay_rate: 1.0
+    snapshot_quality: "medium"
+    actions:
+      click: 5.0               # 关键设置点击
+      enter: 10.0              # 命令行执行
+      switch_in: 5.0
+    text_flush_actions:
+      - "enter"        # 终端里回车通常意味着执行命令
+
+  Other: # 未知应用
+    enabled: true
+    capture_mode: "hybrid"
+    threshold: 120.0
+    capture_scope: "window"
+    decay_rate: 0.5
+    snapshot_quality: "medium"
+    actions:
+      keypress: 1.0
+      click: 1.0
+      enter: 5.0

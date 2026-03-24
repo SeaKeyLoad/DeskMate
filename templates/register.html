@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - AI Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <h2>创建新账号</h2>
+
+        {% if error %}
+        <div class="error-msg">
+            <i class="fas fa-exclamation-triangle"></i> {{ error }}
+        </div>
+        {% endif %}
+
+        <div id="js-error" class="error-msg" style="display: none;"></div>
+
+        <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label>设置用户名</label>
+                <input type="text" name="username" placeholder="建议使用英文或数字" required>
+            </div>
+
+            <div class="form-group">
+                <label>设置密码</label>
+                <input type="password" id="password" name="password" placeholder="至少6位字符" required>
+            </div>
+
+            <div class="form-group">
+                <label>确认密码</label>
+                <input type="password" id="confirm_password" placeholder="再次输入密码" required>
+            </div>
+
+            <button type="submit" class="btn-primary">注 册</button>
+        </form>
+
+        <div class="auth-links">
+            <p>已有账号? <a href="{{ url_for('login') }}">直接登录</a></p>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var pwd = document.getElementById("password").value;
+            var confirmPwd = document.getElementById("confirm_password").value;
+            var errorDiv = document.getElementById("js-error");
+
+            if (pwd.length < 4) {
+                errorDiv.innerText = "为了安全，密码长度不能少于4位";
+                errorDiv.style.display = "block";
+                return false;
+            }
+
+            if (pwd !== confirmPwd) {
+                errorDiv.innerText = "两次输入的密码不一致";
+                errorDiv.style.display = "block";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

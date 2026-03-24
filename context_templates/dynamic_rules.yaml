@@ -1,0 +1,27 @@
+- pattern: (?i)chatgpt|openai|deepseek|claude|gemini|copilot|qwen|tongyi|qianwen|通义|文心|kimi|doubao|豆包|metaso|perplexity|coze|poe|mistral|llama
+  tag: AI
+  desc: AI 对话助手
+- pattern: (?i)youtube|bilibili|twitch|netflix|iqiyi|youku|tencent video|爱奇艺|优酷|腾讯视频|芒果tv|hulu|disney\+
+  tag: Video
+  desc: 观看在线视频
+- pattern: (?i)wechat|wx|qq|weibo|twitter|x\.com|facebook|instagram|reddit|zhihu|douban|linkedin|slack|discord|whatsapp|telegram|微博|知乎|贴吧
+  tag: Social
+  desc: 浏览社交媒体
+- pattern: (?i)github|gitlab|bitbucket|stackoverflow|colab|jupyter|codespaces|replit|huggingface|pypi|npm|maven|k8s|kubernetes|aws|azure|aliyun|console|terminal
+  tag: Coding
+  desc: 查阅技术/云服务
+- pattern: (?i)spotify|music|soundcloud|netease|qqmusic|kugou|kuwo|网易云|喜马拉雅|fm
+  tag: Music
+  desc: 在线音频
+- pattern: (?i)docs\.google|sheets|slides|notion|feishu|lark|dingtalk|wolai|语雀|confluence|jira|trello|office365|outlook|mail|邮箱
+  tag: Office
+  desc: 在线文档/办公
+- pattern: (?i)figma|canva|dribbble|behance|pixiv|artstation|sketch|mastergo|即时设计
+  tag: Design
+  desc: 在线设计/素材
+- pattern: (?i)translate|deepl|fanyi|maps|ditu|百度翻译|谷歌翻译|地图
+  tag: System
+  desc: 在线工具
+- pattern: (?i)tutorial|guide|course|mooc|coursera|udemy|edx|learn|study|教程|文档|wiki|百科
+  tag: Learning
+  desc: 在线学习

@@ -1,0 +1,36 @@
+- pattern: (?i)github\.com
+  tag: Coding
+  desc: 代码托管
+- pattern: (?i)stackoverflow\.com
+  tag: Coding
+  desc: 技术问答
+- pattern: (?i)colab\.research\.google\.com
+  tag: Coding
+  desc: Colab Notebook
+- pattern: (?i)chatgpt\.com|openai\.com
+  tag: AI
+  desc: ChatGPT
+- pattern: (?i)claude\.ai
+  tag: AI
+  desc: Claude AI
+- pattern: (?i)bilibili\.com|youtube\.com|twitch\.tv
+  tag: Video
+  desc: 在线视频
+- pattern: (?i)figma\.com|canva\.com
+  tag: Design
+  desc: 在线设计
+- pattern: (?i)feishu\.cn|larksuite\.com|dingtalk\.com
+  tag: Work
+  desc: 协同办公
+- pattern: (?i)docs\.google\.com|notion\.so|wolai\.com
+  tag: Office
+  desc: 在线文档
+- pattern: (?i)wechat\.com|wx\.qq\.com
+  tag: Social
+  desc: 微信网页版
+- pattern: (?i)mail\.google\.com|outlook\.live\.com
+  tag: Office
+  desc: 网页邮箱
+- pattern: (?i)maps\.google\.com|map\.baidu\.com
+  tag: System
+  desc: 在线地图

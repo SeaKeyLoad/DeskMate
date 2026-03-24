@@ -1,0 +1,18 @@
+{
+  "total": {
+    "launcher_main.exe | 鸣潮 启动器": 897.4241836071014,
+    "Client-Win64-Shipping.exe | 鸣潮": 15214073.13521266
+  },
+  "daily": {
+    "2026-02-24": {
+      "launcher_main.exe | 鸣潮 启动器": 177.42418360710144,
+      "Client-Win64-Shipping.exe | 鸣潮": 2475.0793313980103
+    },
+    "2026-02-25": {
+      "Client-Win64-Shipping.exe | 鸣潮": 6036.662364721298
+    },
+    "2026-02-26": {
+      "Client-Win64-Shipping.exe | 鸣潮": 593.3935165405273
+    }
+  }
+}

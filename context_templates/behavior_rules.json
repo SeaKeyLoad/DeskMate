@@ -1,0 +1,141 @@
+[
+  {
+    "match": {
+      "Process": "cloudmusic.exe"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "bottom_center",
+      "baseline": {
+        "W": 1584,
+        "H": 1128,
+        "X": 647,
+        "Y": 1057
+      },
+      "tolerance": 22
+    },
+    "intent_tag": "点击喜欢(红心)"
+  },
+  {
+    "match": {
+      "Process": "bilibili.exe"
+    },
+    "locate_rule": {
+      "mode": "adaptive",
+      "strategy": "stretch",
+      "baseline": {
+        "W": 1000,
+        "H": 800,
+        "X": 500,
+        "Y": 700
+      },
+      "tolerance": 50
+    },
+    "intent_tag": "调整视频进度"
+  },
+  {
+    "match": {
+      "Process": "cloudmusic.exe"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "top_right",
+      "baseline": {
+        "W": 1775,
+        "H": 1258,
+        "X": 1657,
+        "Y": 54
+      },
+      "tolerance": 25
+    },
+    "intent_tag": "点击窗口最大化按钮"
+  },
+  {
+    "match": {
+      "Process": "cloudmusic.exe",
+      "ControlTypeName": "DocumentControl",
+      "AutomationId": "8618272"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "top_right",
+      "baseline": {
+        "W": 1775,
+        "H": 1258,
+        "X": 1611,
+        "Y": 54
+      },
+      "tolerance": 25
+    },
+    "intent_tag": "点击窗口最小化按钮"
+  },
+  {
+    "match": {
+      "Process": "cloudmusic.exe",
+      "ControlTypeName": "ButtonControl"
+    },
+    "locate_rule": {
+      "mode": "adaptive",
+      "strategy": "bottom_left",
+      "baseline": {
+        "W": 1584,
+        "H": 1128,
+        "X": 223,
+        "Y": 1082
+      },
+      "tolerance": 20
+    },
+    "intent_tag": "点击评论按钮"
+  },
+  {
+    "match": {
+      "Process": "cloudmusic.exe"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "top_left",
+      "baseline": {
+        "W": 1584,
+        "H": 1128,
+        "X": 386,
+        "Y": 52
+      },
+      "tolerance": 35
+    },
+    "intent_tag": "点击后退按钮"
+  },
+  {
+    "match": {
+      "Process": "cloudmusic.exe"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "bottom_center",
+      "baseline": {
+        "W": 1584,
+        "H": 1128,
+        "X": 811,
+        "Y": 1188
+      },
+      "tolerance": 24
+    },
+    "intent_tag": "点击播放上一首按钮"
+  },
+  {
+    "match": {
+      "Process": "sai2.exe"
+    },
+    "locate_rule": {
+      "mode": "anchor",
+      "strategy": "center",
+      "baseline": {
+        "W": 2572,
+        "H": 1601,
+        "X": 1291,
+        "Y": 805
+      },
+      "tolerance": 918
+    },
+    "intent_tag": "绘画ing"
+  }
+]
